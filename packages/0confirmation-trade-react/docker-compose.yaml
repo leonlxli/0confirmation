@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  homepage:
+    image: nginx
+    network_mode: 'host'
+    ports:
+      - "62443:62443"
+    volumes:
+      - /root/nginx-dev.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+  prod:
+    image: 0confirmation/swap
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - /root/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+  mainnet:
+    image: 0confirmation/mainnet-swap
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - /root/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt
